@@ -28,8 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $log_sql = "INSERT INTO audit_trail (email, activity) VALUES ('$email', '$activity')";
             mysqli_query($conn, $log_sql);
 
-            // Echo success message
-            echo "<div class='alert alert-success' role='alert'>Login successful! Welcome, " . $row['email'] . "</div>";
+            // Redirect to dashboard
+            header("Location: ../dashboard/dashboard.php");
+            exit();
         } else {
             // Incorrect password
             $error = "Invalid password. Please try again.";
@@ -57,25 +58,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Motor Parts Shop - Login</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom Login CSS -->
-    <link href="../login/login.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2>Welcome Back</h2>
+            
+            <?php if (isset($error)): ?>
+                <div class="alert alert-danger" role="alert">
+                    <?php echo $error; ?>
+                </div>
+            <?php endif; ?>
 
-    <div class="container">
-        <h2>Login</h2>
-        <form action="../login/login.php" method="POST">
-            <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
-        </form>
-        <p class="text-center mt-3">Don't have an account? <a href="register.php">Register here</a></p>
+            <form action="../login/login.php" method="POST">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <p class="text-center mt-3">Don't have an account? <a href="../register/register.php">Register here</a></p>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
